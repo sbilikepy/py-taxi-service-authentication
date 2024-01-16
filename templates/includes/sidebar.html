@@ -6,12 +6,12 @@
       <a href="/drivers/{{ user.pk }}"> {{ user.username }}
     </strong>
     <br>
-    <a href="{% url 'taxi:logout' %}">Log out</a><br>
+    <a href="{% url 'logout' %}">Log out</a><br>
   {% endif %}
 
 
   {% if not request.user.is_authenticated %}
-    <strong><a href="{% url 'taxi:login' %}">Login</a></strong>
+    <strong><a href="{% url 'login' %}">Login</a></strong>
   {% endif %}
 
   <br>

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-  <form action="{% url 'taxi:login' %}" method="post" style="max-width: 500px">
+  <form action="{% url 'login' %}" method="post" style="max-width: 500px">
     {% csrf_token %}
 
 
