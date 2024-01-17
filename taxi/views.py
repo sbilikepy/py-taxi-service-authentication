@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 
+from .forms import CarForm
 from .models import Driver, Car, Manufacturer
 
 
@@ -36,7 +37,7 @@ class ManufacturerListView(LoginRequiredMixin, generic.ListView):
 
 class CarListView(LoginRequiredMixin, generic.ListView):
     model = Car
-    paginate_by = 5
+    paginate_by = 50
     queryset = Car.objects.select_related("manufacturer")
 
 
@@ -44,17 +45,43 @@ class CarDetailView(LoginRequiredMixin, generic.DetailView):
     model = Car
 
 
-def car_create_view(request: HttpRequest) -> HttpResponse:
-    if request.method == "GET":
-        return render(request, template_name="taxi/car_form.html")
-    if request.method == "POST":
-        new_car = Car.objects.create(
-            model=request.POST["model"],
-            manufacturer=Manufacturer.objects.get(
-                pk=int(request.POST["manufacturer"]))
-        )
-        new_car.save()
+def car_create_view(request: HttpRequest) -> HttpResponse:  # bad practice
+    context = {}
+    form = CarForm(request.POST or None)
+    if form.is_valid():
+        # new_car = Car.objects.create(
+        #     model=form.cleaned_data["model"],
+        #     manufacturer=Manufacturer.objects.get(
+        #         pk=int(form.cleaned_data["manufacturer_id"]))
+        # )
+        form.save()
+
         return HttpResponseRedirect(reverse("taxi:car-list"))
+    context["form"] = form
+    return render(request, "taxi/car_form.html", context=context)
+    # if request.method == "GET":
+    #     context = {
+    #         "form": CarForm()
+    #     }
+    #     return render(request, template_name="taxi/car_form.html",
+    #                   context=context)
+    #
+    # if request.method == "POST":
+    #     form = CarForm(request.POST)
+    #     if form.is_valid():
+    #         new_car = Car.objects.create(
+    #             model=form.cleaned_data["model"],
+    #             manufacturer=Manufacturer.objects.get(
+    #                 pk=int(form.cleaned_data["manufacturer_id"]))
+    #         )
+    #         new_car.save()
+    #         return HttpResponseRedirect(reverse("taxi:car-list"))
+    #
+    #     context = {
+    #         "form": form
+    #     }
+    #
+    #     return render(request, "taxi/car_form.html", context=context)
 
 
 class DriverListView(LoginRequiredMixin, generic.ListView):
