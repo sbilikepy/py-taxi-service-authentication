@@ -1,7 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.views import generic
+
 from .models import Driver, Car, Manufacturer
 
 
@@ -39,6 +42,19 @@ class CarListView(LoginRequiredMixin, generic.ListView):
 
 class CarDetailView(LoginRequiredMixin, generic.DetailView):
     model = Car
+
+
+def car_create_view(request: HttpRequest) -> HttpResponse:
+    if request.method == "GET":
+        return render(request, template_name="taxi/car_form.html")
+    if request.method == "POST":
+        new_car = Car.objects.create(
+            model=request.POST["model"],
+            manufacturer=Manufacturer.objects.get(
+                pk=int(request.POST["manufacturer"]))
+        )
+        new_car.save()
+        return HttpResponseRedirect(reverse("taxi:car-list"))
 
 
 class DriverListView(LoginRequiredMixin, generic.ListView):

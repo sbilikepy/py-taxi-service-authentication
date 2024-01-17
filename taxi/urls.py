@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 
 from .views import (
     index,
@@ -7,6 +7,7 @@ from .views import (
     DriverListView,
     DriverDetailView,
     ManufacturerListView,
+    car_create_view
 )
 
 app_name = "taxi"
@@ -19,6 +20,7 @@ urlpatterns = [
         name="manufacturer-list",
     ),
     path("cars/", CarListView.as_view(), name="car-list"),
+    path("cars/create/", car_create_view, name="car-create"),
     path("cars/<int:pk>/", CarDetailView.as_view(), name="car-detail"),
     path("drivers/", DriverListView.as_view(), name="driver-list"),
     path(
