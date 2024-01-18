@@ -2,8 +2,7 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = ("django-insecure-8ovil3xu6=eaoqd#-"
-              "#&ricv159p0pypoh5_lgm*)-dfcjqe=yc")
+SECRET_KEY = "django-insecure-8ovil3xu6=eaoqd#-" "#&ricv159p0pypoh5_lgm*)-dfcjqe=yc"
 DEBUG = True
 ALLOWED_HOSTS = []
 INSTALLED_APPS = [
@@ -14,6 +13,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "taxi",
+    "crispy_forms",
+    "crispy_bootstrap4",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -50,19 +51,16 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation."
-                "UserAttributeSimilarityValidator",
+        "UserAttributeSimilarityValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation."
-                "MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation." "MinimumLengthValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation."
-                "CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation." "CommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation."
-                "NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation." "NumericPasswordValidator",
     },
 ]
 AUTH_USER_MODEL = "taxi.Driver"
@@ -76,3 +74,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = "bootstrap4"
